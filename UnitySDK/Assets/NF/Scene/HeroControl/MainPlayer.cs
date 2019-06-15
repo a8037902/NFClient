@@ -5,6 +5,7 @@ using NFSDK;
 public class MainPlayer : MonoBehaviour {
 
 	NFPlayerModule mPlayerModule;
+    private NFUIModule mUIModule;
 
     private float mSyncTime = 0.3f;
     private float mSyncTimeTick = 0.0f;
@@ -22,6 +23,7 @@ public class MainPlayer : MonoBehaviour {
 	void Start()
     {
         mPlayerModule = NFCPluginManager.Instance().FindModule<NFPlayerModule>();
+        mUIModule = NFCPluginManager.Instance().FindModule<NFUIModule>();
 
         mController = GetComponent<CharacterController>();
 		mAnimation = GetComponent<Animator>();
@@ -33,6 +35,31 @@ public class MainPlayer : MonoBehaviour {
         {
 			Camera.main.GetComponent<CameraFollow>().target = this.transform;
         }
+
+        mUIModule.ShowUI<UIPlayer>();
+        ETCJoystick etcJoystick = GameObject.Find("NFCRoot/UIPlayer/Player Joystick").GetComponent<ETCJoystick>();
+        etcJoystick.onMove.AddListener((v2) =>
+        {
+            mJoystickIn = v2;
+        });
+
+        etcJoystick.onMoveEnd.AddListener(() =>
+        {
+            mJoystickIn = Vector2.zero;
+        });
+    }
+
+    private Vector2 mJoystickIn;
+    void OnEnable()
+    {
+        //设置EasyJoystick.On_JoystickMove与EasyJoystick.On_JoystickMoveEnd
+        //GameObject obj = GameObject.Find("NFCRoot");
+        
+    }
+
+    void OnJoystickMoveEnd()
+    {
+
     }
 
     void FixedUpdate()
@@ -40,8 +67,9 @@ public class MainPlayer : MonoBehaviour {
         if (grounded)
         {
             moveDirection.y = 0;
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
+            float h = mJoystickIn.x; //Input.GetAxis("Horizontal");
+            float v = mJoystickIn.y; //Input.GetAxis("Vertical");
+
             /*
             if (Joystick.h != 0 || Joystick.v != 0)
             {
@@ -83,6 +111,14 @@ public class MainPlayer : MonoBehaviour {
 
 
 		Sync();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            mPlayerModule.RequireUseSkill();
+        }
     }
 
     void Sync()

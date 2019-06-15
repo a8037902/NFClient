@@ -18,6 +18,7 @@ namespace NFSDK
             PlayerMove,
 			PlayerJump,
 			SwapScene,
+            PlayerIn,
         };
 
 
@@ -78,6 +79,8 @@ namespace NFSDK
 			mNetModule.AddReceiveCallBack(NFMsg.EGameMsgID.EGMI_ACK_DATA_FINISHED, OnLoadDataFinish);
 
 			mNetModule.AddReceiveCallBack(NFMsg.EGameMsgID.EGMI_EVENT_RESULT, OnEventResult);
+
+            mNetModule.AddReceiveCallBack(NFMsg.EGameMsgID.EGMI_ACK_SKILL_OBJECTX, OnSkillObjectX);
             
             /*
             mxNetListener.RegisteredDelegation(NFMsg.EGameMsgID.EGMI_ACK_SKILL_OBJECTX, EGMI_ACK_SKILL_OBJECTX);
@@ -182,7 +185,21 @@ namespace NFSDK
             mNetModule.SendToServerByPB(NFMsg.EGameMsgID.EGMI_REQ_MOVE, stream);
         }
 
-		private void OnRoleList(UInt16 id, MemoryStream stream)
+        public void RequireUseSkill()
+        {
+            NFMsg.ReqAckUseSkill xData = new NFMsg.ReqAckUseSkill();
+            xData.user = mHelpModule.NFToPB(mRoleID);
+            xData.use_index = 0;
+            xData.skill_id = ByteString.CopyFromUtf8("SKILL_Bristleback_Normal");
+
+            MemoryStream stream = new MemoryStream();
+            xData.WriteTo(stream);
+
+            mNetModule.SendToServerByPB(NFMsg.EGameMsgID.EGMI_REQ_SKILL_OBJECTX, stream);
+        }
+
+
+        private void OnRoleList(UInt16 id, MemoryStream stream)
         {
             NFMsg.MsgBase xMsg = NFMsg.MsgBase.Parser.ParseFrom(stream);
 
@@ -243,7 +260,7 @@ namespace NFSDK
 
             NFMsg.ReqAckSwapScene xData = NFMsg.ReqAckSwapScene.Parser.ParseFrom(xMsg.msg_data);
 
-			mUIModule.ShowUI<UIMain>();
+			//mUIModule.ShowUI<UIMain>();
 
 			NFDataList var = new NFDataList();
 			NFVector3 v = new NFVector3(xData.x, xData.y, xData.z);
@@ -323,6 +340,26 @@ namespace NFSDK
 
 			mEventModule.DoEvent((int)Event.PlayerJump, var);
             //DoEvent((int)Event.PlayerJump, var);
+        }
+
+        private void OnSkillObjectX(UInt16 id, MemoryStream stream)
+        {
+            NFMsg.MsgBase xMsg = NFMsg.MsgBase.Parser.ParseFrom(stream);
+
+            NFMsg.ReqAckUseSkill xData = NFMsg.ReqAckUseSkill.Parser.ParseFrom(xMsg.msg_data);
+
+            Debug.Log(xData.skill_id.ToStringUtf8());
+            mHelpModule.PBToNF(xData.user);
+            Debug.Log(xData.use_index);
+
+            for (int i = 0; i < xData.effect_data.Count; i++)
+            {
+                NFMsg.EffectData effectData = xData.effect_data[i];
+                Debug.Log(effectData.effect_value);
+                Debug.Log(effectData.effect_rlt);
+                Debug.Log(mHelpModule.PBToNF(effectData.effect_ident));
+            }
+
         }
 
         public NFGUID mRoleID;

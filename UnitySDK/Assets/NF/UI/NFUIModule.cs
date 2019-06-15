@@ -77,6 +77,47 @@ namespace NFSDK
             }
         }
 
+        public void ShowUI(string name, bool bPushHistory, NFDataList varList)
+        {
+            if (mCurrentDialog != null)
+            {
+                mCurrentDialog.gameObject.SetActive(false);
+                mCurrentDialog = null;
+            }
+
+            GameObject uiObject;
+            if (!mAllUIs.TryGetValue(name, out uiObject))
+            {
+                GameObject perfb = Resources.Load<GameObject>("UI/" + name);
+                uiObject = GameObject.Instantiate(perfb);
+                uiObject.name = name;
+
+                uiObject.transform.SetParent(NFCRoot.Instance().transform);
+
+                mAllUIs.Add(name, uiObject);
+            }
+            //else
+            //{
+            //    uiObject.SetActive(true);
+            //}
+
+            if (uiObject)
+            {
+                UIDialog panel = uiObject.GetComponent(name) as UIDialog;
+                if (varList != null)
+                    panel.mUserData = varList;
+
+                mCurrentDialog = panel;
+
+                uiObject.SetActive(true);
+
+                if (bPushHistory)
+                {
+                    mDialogs.Enqueue(panel);
+                }
+            }
+        }
+
         public void CloseUI()
         {
             if (mCurrentDialog)

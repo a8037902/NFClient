@@ -35,9 +35,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-#if !NET35
 using System.Threading;
 using System.Threading.Tasks;
+#if !NET35
 #endif
 #if NET35
 using Google.Protobuf.Compatibility;

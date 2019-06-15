@@ -16,16 +16,16 @@ public class UILogin : UIDialog
 	// Use this for initialization
 	void Start () 
 	{
-		mNetModule = NFCPluginManager.Instance().FindModule<NFNetModule>();
-		mLoginModule = NFCPluginManager.Instance().FindModule<NFLoginModule>();
-		mUIModule = NFCPluginManager.Instance().FindModule<NFUIModule>();
-		mEventModule = NFCPluginManager.Instance().FindModule<NFIEventModule>();
+		//mNetModule = NFCPluginManager.Instance().FindModule<NFNetModule>();
+		//mLoginModule = NFCPluginManager.Instance().FindModule<NFLoginModule>();
+		//mUIModule = NFCPluginManager.Instance().FindModule<NFUIModule>();
+		//mEventModule = NFCPluginManager.Instance().FindModule<NFIEventModule>();
 
-        mLogin.onClick.AddListener(onLoginClick);
+  //      mLogin.onClick.AddListener(onLoginClick);
 
-        mNetModule.ConnectServer("127.0.0.1", 14001);
+  //      mNetModule.ConnectServer("127.0.0.1", 14001);
 
-		mEventModule.RegisterCallback((int)NFUIModule.Event.LoginSuccess, OnLoginSuccess);
+		//mEventModule.RegisterCallback((int)NFUIModule.Event.LoginSuccess, OnLoginSuccess);
 	}
 
     // UI Event

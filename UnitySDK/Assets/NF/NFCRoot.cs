@@ -26,18 +26,19 @@ public class NFCRoot : MonoBehaviour
         mPluginManager.Registered(new NFLogicPlugin(mPluginManager));
 		mPluginManager.Registered(new NFUIPlugin(mPluginManager));
 		mPluginManager.Registered(new NFScenePlugin(mPluginManager));
+        mPluginManager.Registered(new NFMiscPlugin(mPluginManager));
 
 
-		mClassModule = mPluginManager.FindModule<NFIClassModule>();
+        mClassModule = mPluginManager.FindModule<NFIClassModule>();
 		mNetModule = mPluginManager.FindModule<NFNetModule>();
 		mUIModule = mPluginManager.FindModule<NFUIModule>();
 
-		mClassModule.SetDataPath("../../_Out/");
+		mClassModule.SetDataPath("../../NoahGameFrame/_Out/");
 
 		if (RuntimePlatform.Android == Application.platform
 		    ||RuntimePlatform.IPhonePlayer == Application.platform)
 		{
-			mPluginManager.FindModule<NFIClassModule>().SetDataPath("./");
+			mPluginManager.FindModule<NFIClassModule>().SetDataPath(""/*"./"*/);
 		}
 
         mPluginManager.Init();

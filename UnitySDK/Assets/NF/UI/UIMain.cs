@@ -10,8 +10,8 @@ public class UIMain : UIDialog
 	private NFUIModule mUIModule;
 	private NFIEventModule mEventModule;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
 	{
 		NFIPluginManager xPluginManager = NFCPluginManager.Instance();
 		mLoginModule = xPluginManager.FindModule<NFLoginModule>();

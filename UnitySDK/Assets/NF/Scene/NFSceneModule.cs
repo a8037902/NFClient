@@ -11,9 +11,10 @@ namespace NFSDK
 		private NFPlayerModule mPlayerModule;
 		private NFIEventModule mEventModule;
 		private NFHelpModule mHelpModule;
+        private NFUIModule mUIModule;
 
 
-		private Dictionary<NFGUID, GameObject> mGameObjectMap = new Dictionary<NFGUID, GameObject>();
+        private Dictionary<NFGUID, GameObject> mGameObjectMap = new Dictionary<NFGUID, GameObject>();
 
         public NFSceneModule(NFIPluginManager pluginManager)
         {
@@ -175,7 +176,7 @@ namespace NFSDK
             //        strPrefabPath = NFCElementModule.Instance()..QueryPropertyString(strConfigID, "Prefab");
             //    }
 
-                strPrefabPath = "Player/MainPlayer";
+                strPrefabPath = "Player/AIThirdPersonController"; //"Player/MainPlayer";
                 GameObject playerPerf = Resources.Load<GameObject>(strPrefabPath);
 				GameObject player = GameObject.Instantiate(playerPerf);
 

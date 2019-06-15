@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 11486808}
   - component: {fileID: 11456874}
   - component: {fileID: 11461304}
+  - component: {fileID: 114915301911503868}
   m_Layer: 5
   m_Name: UILogin
   m_TagString: Untagged
@@ -1149,6 +1150,25 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\xA9 2018 NoahGameFrame. All Rights Reserved.   https://github.com/ketoo/NoahGameFrame"
+--- !u!114 &114915301911503868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 831706fc7a155e94daa7985c06c8a06c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  luaScript: {fileID: 4900000, guid: 8a984b5d1c7a554499f77b19ece1f920, type: 3}
+  injections:
+  - name: mAccount
+    value: {fileID: 1384979580315674}
+  - name: mPassword
+    value: {fileID: 1537597708659394}
+  - name: mLogin
+    value: {fileID: 1241650467914770}
 --- !u!114 &114942843406736270
 MonoBehaviour:
   m_ObjectHideFlags: 1
